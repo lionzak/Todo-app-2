@@ -26,6 +26,13 @@ app.use(cors());
 app.use("/api/tasks", taskRouter);
 app.use("/api/users", userRouter);
 
+app.all("*", (req, res, next) => {
+  return res.status(404).json({
+    status: httpStatusText.ERROR,
+    message: "This Resource is not available",
+  });
+});
+
 app.use((err, req, res, next) => {
   return res.status(err.statusCode || 500).json({
     status: err.statusText || httpStatusText.ERROR,
